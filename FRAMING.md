@@ -1,22 +1,12 @@
 # Framing: Rawaj Pay mule detection
-
-<!-- Write a few sentences under each heading about Rawaj Pay's mule detection.
-     Keep the four headings exactly as they are. Text inside these comments does not count.
-     The grader checks only that each heading has some text under it; your Track Mentor reads it. -->
-
 ## Decision
-
-<!-- What decision changes because of the model? Who acts on it, and how many cases a day
-     can they handle? What does each kind of error cost? -->
+The model helps Rawaj Pay's fraud or risk operations team prioritize suspicious transactions or accounts that may be involved in money-mule activity. The team reviews high-risk cases and decides whether to investigate further or take an appropriate action. The daily review capacity should be determined by the team's available resources. False negatives may allow mule activity to continue, causing financial losses and potential compliance risks. False positives may waste investigation time and inconvenience legitimate customers.
 
 ## Metric
-
-<!-- Which metric matches that decision, and at what threshold? Why not accuracy? -->
+Precision at k is useful when the team can investigate only a limited number of cases and needs the highest-risk predictions first. The value of k should reflect the team's daily review capacity. If the goal is to achieve a minimum precision level, threshold_for_precision can help select a score threshold that meets the required precision on validation data. Accuracy alone is insufficient because it can hide poor detection performance when mule cases are rare. Recall should also be monitored to understand how many actual mule cases are missed.
 
 ## Baseline
-
-<!-- What happens today without the model? What must the model beat, on the client's terms? -->
+The baseline is the existing manual review process or the current rule-based fraud detection approach, depending on what Rawaj Pay currently uses. Without a model, investigators rely on existing signals, rules, and available case information to identify suspicious activity. The model must improve the usefulness of the cases prioritized for review without creating an unmanageable number of false positives. Its performance should be compared with the existing process using the same evaluation data and operational review capacity.
 
 ## Classical ML or LLM
-
-<!-- Classical model, LLM, a rule, or a mix? Argue from the decision table in the session. -->
+A classical machine-learning model is the more appropriate starting point for ranking transactions or accounts using structured features and producing consistent risk scores. It can be evaluated using precision, recall, and precision at k, which directly relate to the team's investigation capacity. An LLM is not necessary for the core scoring task and may introduce additional cost, latency, and less predictable outputs. If needed, an LLM could later assist investigators in summarizing case information, while deterministic rules and human review govern consequential actions.
